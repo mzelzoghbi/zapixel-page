@@ -6,7 +6,7 @@ import watchSupportImage from '@/assets/watch support.png';
 
 const screenshots = [
   {
-    title: 'Browse',
+    title: 'Explore',
     description: 'Discover thousands of curated wallpapers',
     image: discoverImage,
   },
