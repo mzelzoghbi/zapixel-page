@@ -99,9 +99,6 @@ export function Footer() {
           <p className="text-sm text-gray-500">
             © 2026 ZaPixel. All rights reserved.
           </p>
-          <p className="text-sm text-gray-500">
-            Made with precision and passion
-          </p>
         </div>
       </div>
     </footer>
