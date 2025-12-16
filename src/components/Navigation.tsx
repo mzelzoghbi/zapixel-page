@@ -43,10 +43,13 @@ export function Navigation() {
           </a>
         </div>
 
-        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full hover:from-purple-500 hover:to-pink-400 transition-all">
+        <a
+          href="#download"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full hover:from-purple-500 hover:to-pink-400 transition-all"
+        >
           <Download className="w-4 h-4" />
           <span className="text-sm">Download</span>
-        </button>
+        </a>
       </div>
     </motion.nav>
   );
