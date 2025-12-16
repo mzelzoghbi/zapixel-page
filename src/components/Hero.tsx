@@ -76,9 +76,12 @@ export function Hero() {
             </a>
           </div>
 
-          <button className="text-sm text-gray-400 hover:text-purple-400 transition-colors underline underline-offset-4">
+          <a
+            href="#categories"
+            className="text-sm text-gray-400 hover:text-purple-400 transition-colors underline underline-offset-4"
+          >
             Explore Wallpapers →
-          </button>
+          </a>
         </motion.div>
 
         {/* Right content - Device mockup */}
