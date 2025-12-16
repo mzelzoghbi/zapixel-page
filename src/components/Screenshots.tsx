@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import discoverImage from '@/assets/discover.png';
 
 const screenshots = [
   {
     title: 'Browse',
     description: 'Discover thousands of curated wallpapers',
-    image: 'https://images.unsplash.com/photo-1663866955764-b3e90f6c42c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuYXR1cmUlMjBsYW5kc2NhcGUlMjA0a3xlbnwxfHx8fDE3NjU4OTkyNDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: discoverImage,
   },
   {
     title: 'Preview',
