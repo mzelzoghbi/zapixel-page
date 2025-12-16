@@ -91,7 +91,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative flex justify-center lg:justify-end"
         >
-          <div className="relative">
+          <div className="relative scale-[1.25] origin-center">
             {/* Phone frame */}
             <div className="relative w-72 h-[600px] bg-gradient-to-br from-gray-900 to-black rounded-[3rem] border-8 border-gray-800 shadow-2xl overflow-hidden">
               {/* Screen content */}
