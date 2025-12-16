@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import discoverImage from '@/assets/discover.png';
+import previewImage from '@/assets/preview.png';
+import watchSupportImage from '@/assets/watch support.png';
 
 const screenshots = [
   {
@@ -11,12 +13,12 @@ const screenshots = [
   {
     title: 'Preview',
     description: 'View in full 4K resolution',
-    image: 'https://images.unsplash.com/photo-1639493115941-a70fcef4f715?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGNvbG9yZnVsJTIwZ3JhZGllbnR8ZW58MXx8fHwxNzY1ODIxMzYzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: previewImage,
   },
   {
-    title: 'Apply',
-    description: 'Set as wallpaper with one tap',
-    image: 'https://images.unsplash.com/photo-1520529890308-f503006340b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsJTIwYXJjaGl0ZWN0dXJlfGVufDF8fHx8MTc2NTg5NzQxOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    title: 'Watch Support',
+    description: 'Control ZaPixel right from your wrist',
+    image: watchSupportImage,
   },
 ];
 
@@ -53,18 +55,24 @@ export function Screenshots() {
               >
                 <div className="relative w-72">
                   {/* Phone mockup */}
-                  <div className="relative bg-gradient-to-br from-gray-900 to-black rounded-[3rem] border-8 border-gray-800 shadow-2xl overflow-hidden">
-                    {/* Notch */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10" />
-                    
+                  <div className="relative bg-gradient-to-br from-zinc-900 via-slate-900 to-black rounded-[3rem] border-[12px] border-slate-800 shadow-[0_20px_60px_rgba(0,0,0,0.45)] overflow-hidden">
+                    {/* Titanium chamfer */}
+                    <div className="absolute inset-0 rounded-[2.9rem] border border-white/10 pointer-events-none" />
+                    {/* Dynamic Island */}
+                    <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-9 bg-black rounded-full border border-white/10 shadow-[0_6px_12px_rgba(0,0,0,0.35)] z-10" />
+                    {/* Side buttons */}
+                    <div className="absolute left-0 top-16 h-10 w-1.5 rounded-r-full bg-slate-700/70" />
+                    <div className="absolute right-0 top-14 h-8 w-1.5 rounded-l-full bg-slate-700/70" />
+                    <div className="absolute right-0 top-24 h-8 w-1.5 rounded-l-full bg-slate-700/70" />
+
                     {/* Screen */}
-                    <div className="aspect-[9/19.5] bg-black overflow-hidden">
+                    <div className="aspect-[9/19.5] bg-black overflow-hidden rounded-[2.4rem] border border-white/5 mx-2 my-3">
                       <img
                         src={screenshot.image}
                         alt={screenshot.title}
                         className="w-full h-full object-cover"
                       />
-                      
+
                       {/* UI overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-0 left-0 right-0 p-6">

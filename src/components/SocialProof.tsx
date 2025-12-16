@@ -4,21 +4,21 @@ import { motion } from 'motion/react';
 
 const testimonials = [
   {
-    name: 'Alex Chen',
-    role: 'Designer',
-    text: 'Finally, wallpapers that actually look good on my OLED display. The quality is unmatched.',
+    name: 'Walaa El-Basry',
+    role: 'Wallpaper enthusiast',
+    text: 'I was already blown away by the huge variety of wallpapers and categories in this App! And the best part? 🥳The AI feature in next level, I literally describe the wallpaper which I imagine, and it brings it to life 😊👍',
     rating: 5,
   },
   {
-    name: 'Sarah Martinez',
-    role: 'Developer',
-    text: 'Clean interface, amazing selection, and incredibly fast. This is how an app should be built.',
+    name: 'Mohamed Sayed',
+    role: 'Wallpaper enthusiast',
+    text: 'Amazing app, simple and elegant GUI.',
     rating: 5,
   },
   {
-    name: 'Marcus Johnson',
-    role: 'Photographer',
-    text: 'As someone who appreciates high-quality visuals, ZaPixel delivers exactly what I need.',
+    name: 'Mohamed Nagy',
+    role: 'Wallpaper enthusiast',
+    text: "It has a lot of cool wallpapers and it aligns perfectly with my phone's screen.",
     rating: 5,
   },
 ];
@@ -48,7 +48,7 @@ export function SocialProof() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="grid md:grid-cols-3 gap-8 mb-16"
+          className="grid md:grid-cols-2 gap-8 mb-16"
         >
           <div className="text-center p-8 bg-gradient-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-sm border border-white/10 rounded-3xl">
             <div className="flex items-center justify-center gap-1 mb-2">
@@ -56,19 +56,14 @@ export function SocialProof() {
                 <Star key={i} className="w-6 h-6 fill-purple-400 text-purple-400" />
               ))}
             </div>
-            <div className="text-4xl mb-2">4.9</div>
+            <div className="text-4xl mb-2">5.0</div>
             <div className="text-sm text-gray-400">App Store Rating</div>
           </div>
 
           <div className="text-center p-8 bg-gradient-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-sm border border-white/10 rounded-3xl">
             <Users className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-            <div className="text-4xl mb-2">500K+</div>
+            <div className="text-4xl mb-2">1K+</div>
             <div className="text-sm text-gray-400">Active Users</div>
-          </div>
-
-          <div className="text-center p-8 bg-gradient-to-br from-gray-900/50 to-gray-900/30 backdrop-blur-sm border border-white/10 rounded-3xl">
-            <div className="text-4xl mb-2 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">10M+</div>
-            <div className="text-sm text-gray-400">Downloads This Month</div>
           </div>
         </motion.div>
 

@@ -27,7 +27,7 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={logo} alt="ZaPixel Logo" className="w-10 h-10" />
+          <img src={logo} alt="ZaPixel Logo" className="w-10 h-10 rounded-2xl bg-white p-1" />
           <span className="text-xl">ZaPixel</span>
         </div>
 
@@ -38,8 +38,8 @@ export function Navigation() {
           <a href="#categories" className="text-sm text-gray-400 hover:text-white transition-colors">
             Categories
           </a>
-          <a href="#download" className="text-sm text-gray-400 hover:text-white transition-colors">
-            Download
+          <a href="/privacy" className="text-sm text-gray-400 hover:text-white transition-colors">
+            Privacy Policy
           </a>
         </div>
 

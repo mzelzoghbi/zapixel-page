@@ -30,7 +30,10 @@ export function FinalCTA() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <motion.button
+            <motion.a
+              href="https://apps.apple.com/us/app/zapixel-ai-4k-wallpapers/id6742073049"
+              target="_blank"
+              rel="noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group flex items-center justify-center gap-3 px-10 py-5 bg-white text-black rounded-2xl hover:bg-gray-100 transition-all"
@@ -40,9 +43,12 @@ export function FinalCTA() {
                 <div className="text-xs opacity-70">Download on the</div>
                 <div>App Store</div>
               </div>
-            </motion.button>
+            </motion.a>
 
-            <motion.button
+            <motion.a
+              href="https://play.google.com/store/apps/details?id=com.zaplatform.zapixel"
+              target="_blank"
+              rel="noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-purple-600 via-pink-500 to-pink-600 rounded-2xl hover:from-purple-500 hover:via-pink-400 hover:to-pink-500 transition-all shadow-lg shadow-pink-500/25"
@@ -52,7 +58,7 @@ export function FinalCTA() {
                 <div className="text-xs opacity-90">Get it on</div>
                 <div>Google Play</div>
               </div>
-            </motion.button>
+            </motion.a>
           </div>
 
           <p className="text-sm text-gray-500 pt-4">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Twitter, Mail } from 'lucide-react';
+import { Instagram, Twitter, Music2 } from 'lucide-react';
 import logo from 'figma:asset/fdd0351693d8a42f950a88db239661ab5c4410dc.png';
 
 export function Footer() {
@@ -10,7 +10,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="ZaPixel Logo" className="w-12 h-12" />
+              <img src={logo} alt="ZaPixel Logo" className="w-12 h-12 rounded-2xl bg-white p-2" />
               <span className="text-xl">ZaPixel</span>
             </div>
             <p className="text-sm text-gray-400">
@@ -45,7 +45,7 @@ export function Footer() {
             <h4 className="text-sm mb-4 text-gray-400">Support</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <a href="/privacy" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
                 </a>
               </li>
@@ -67,22 +67,28 @@ export function Footer() {
             <h4 className="text-sm mb-4 text-gray-400">Follow Us</h4>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://instagram.com/zapixelapp"
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 bg-gray-900 hover:bg-gray-800 rounded-xl flex items-center justify-center transition-colors"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://x.com/zapixelapp"
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 bg-gray-900 hover:bg-gray-800 rounded-xl flex items-center justify-center transition-colors"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.tiktok.com/@zapixel.app"
+                target="_blank"
+                rel="noreferrer"
                 className="w-10 h-10 bg-gray-900 hover:bg-gray-800 rounded-xl flex items-center justify-center transition-colors"
               >
-                <Mail className="w-5 h-5" />
+                <Music2 className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -91,7 +97,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500">
-            © 2024 ZaPixel. All rights reserved.
+            © 2026 ZaPixel. All rights reserved.
           </p>
           <p className="text-sm text-gray-500">
             Made with precision and passion
