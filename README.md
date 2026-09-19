@@ -1,18 +1,29 @@
+# zapixel-page
 
-  # ZaPixel Landing Page Design
+The landing page for **ZaPixel**, served at <https://zapixel.zaplatform.com>.
 
-  This is a code bundle for ZaPixel Landing Page Design. The original project is available at https://www.figma.com/design/a5ifz5uV5reoGi6Pcb1ngu/ZaPixel-Landing-Page-Design.
+## How this works
 
-  ## Running the code
+`site/` is a plain static site — HTML, CSS and images, no build step. The Pages
+workflow uploads it as it stands.
 
-  Run `npm i` to install the dependencies.
+**Do not hand-edit `site/`.** It is generated from the design, which is the
+source of truth:
 
-  Run `npm run dev` to start the development server.
+    design-thoughts/zapixel-landing/        # the design
+    design-thoughts/zapixel-landing/tools/build-site.py   # emits site/
 
-  ## Deploying to GitHub Pages
+Edit the design, re-run that script, and copy the result here.
 
-  1. Ensure your default branch is `main` (or update the workflow trigger if different).
-  2. Push to `main`; the GitHub Actions workflow in `.github/workflows/deploy.yml` will build the site and publish to Pages using the `build/` output.
-  3. In your repo settings, enable GitHub Pages and choose **Source: GitHub Actions**.
-  4. The deployed site will be available at `https://<user>.github.io/<repo-name>/` (the base path is set automatically during the build).
-  
+## Things that must not be lost
+
+| Path | Why |
+|---|---|
+| `site/CNAME` | Holds the custom domain. Deleting it drops `zapixel.zaplatform.com`. |
+| `site/app-ads.txt` | Google ad publisher ID. Removing it breaks ad monetisation. |
+| `site/privacy/index.html` | **App Store Connect and Play Console hold this URL.** The policy has always lived at `/privacy`, and that path is preserved deliberately — moving it silently breaks the store listings' privacy link. |
+
+## History
+
+Until now this repo held a Vite + React single-page app. It was replaced with
+the static site on the redesign; the old source is still in git history.
