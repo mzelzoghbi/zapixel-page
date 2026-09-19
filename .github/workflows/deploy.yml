@@ -1,5 +1,9 @@
 name: Deploy to GitHub Pages
 
+# The site is static -- plain HTML, CSS and images, built from the design
+# directory in the design-thoughts repo (zapixel-landing/tools/build-site.py).
+# There is nothing to compile, so this uploads site/ as it stands.
+
 on:
   push:
     branches: [main]
@@ -15,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -24,23 +28,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
+      # site/CNAME keeps the custom domain and site/app-ads.txt carries the
+      # Google ad publisher ID. Both must reach the published root.
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           name: site
-          path: build
+          path: site
 
       - name: Deploy to GitHub Pages
         id: deployment

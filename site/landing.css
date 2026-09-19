@@ -1,0 +1,474 @@
+/* ZaPixel landing page — design system
+ *
+ * Inherits the app's two-layer rule and does not relax it:
+ *   CONTENT layer  monochrome, 1px hairlines, radius 10. No accent, ever.
+ *   SHELL layer    glass over an ambient ground. Owns the only accent.
+ *
+ * `--seed` stays a variable even though only the brand violet ships now: the
+ * measured contrast rule below depends on it holding for ANY value, and a
+ * "pick a palette" control that implied a feature the app does not have was
+ * removed rather than kept as decoration.
+ *
+ * Every ratio quoted in a comment here is measured by tools/audit-contrast.py.
+ *
+ * The product imagery is REAL: iOS screenshots come from the live App Store
+ * listing, Android ones from the shipped build running on an emulator. Nothing
+ * here is a CSS re-creation of the app — an earlier draft did that and the
+ * mockups both looked wrong and scaled badly.
+ */
+
+/* ---------------------------------------------------------------- tokens -- */
+
+:root {
+  --bg: #08080B;            /* not pure black — avoids OLED smear on flat fields */
+  --bg-raise: #14141A;      /* raised card surface — measured, ink holds 16.7:1 */
+  --ink: #F5F4F1;           /* warm off-white, not #FFF          18.19:1 on bg */
+  --ink-soft: rgba(245, 244, 241, .72);  /* body prose            9.45:1 on bg */
+  --ink2: rgba(245, 244, 241, .60);      /* captions              6.76:1 on bg */
+  --ink3: rgba(245, 244, 241, .40);      /* labels only           3.50:1 on bg */
+  --line: rgba(255, 255, 255, .14);
+  --line-strong: rgba(255, 255, 255, .22);
+
+  /* Glass, step 2 of the app's ladder: an INK floor, not a white veil, so the
+   * composite can never rise above the text it carries. */
+  --glass: rgba(16, 16, 20, .64);
+  --glass-line: rgba(255, 255, 255, .20);
+  --glass-blur: blur(30px) saturate(150%);
+
+  /* The seed. Default is the brand violet — the icon's purple band toned for
+   * interface use. Replaced at runtime by a wallpaper-derived palette. */
+  --seed: #8B5CF6;
+  --on-seed: #0B0A10;       /* dark label on a bright fill; see the note below */
+  --seed-glow: color-mix(in oklab, var(--seed) 22%, transparent);
+  --seed-faint: color-mix(in oklab, var(--seed) 10%, transparent);
+
+  /* Radius 10 on tiles is the Atlas signature. Full-round is reserved for shell
+   * controls, never content. */
+  --r-tile: 10px;
+  --r-card: 12px;
+  --r-control: 15px;
+  --r-sheet: 26px;
+  --r-capsule: 999px;
+
+  --ease: cubic-bezier(.22, .61, .36, 1);   /* the app's cross-fade curve */
+  --dur: 260ms;
+  --dur-seed: 420ms;
+
+  --gutter: 24px;
+  --max: 1180px;
+
+  color-scheme: dark;
+}
+
+/* Why the label on the accent is dark, not white:
+ * the seed is user-chosen, so the page cannot know it in advance and the rule
+ * has to hold for all of them. Measured — white fails on every seed (4.23:1 on
+ * the brand violet, 2.16:1 on the amber); a near-black label passes on every
+ * seed (4.66:1 → 9.12:1). Seed lightness is floored at 0.42, which is what
+ * keeps that true for palettes nobody has picked yet. */
+
+:root[data-theme="light"] {
+  --bg: #EEEDE9;            /* warm paper, not #FFF */
+  --bg-raise: #F7F6F3;
+  --ink: #101011;                        /*                    16.23:1 on paper */
+  --ink-soft: rgba(16, 16, 17, .72);     /*                     7.11:1 on paper */
+  --ink2: rgba(16, 16, 17, .62);         /*                     5.06:1 on paper */
+  --ink3: rgba(16, 16, 17, .42);
+  --line: rgba(0, 0, 0, .14);
+  --line-strong: rgba(0, 0, 0, .22);
+  --glass: rgba(255, 255, 255, .72);
+  --glass-line: rgba(255, 255, 255, .88);
+  --seed: #7C3AED;          /* darkened from the dark-mode accent to hold on paper */
+  color-scheme: light;
+}
+
+/* ----------------------------------------------------------------- reset -- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Zain, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 19px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--seed);      /* ≥ 4.72:1 on the ground at every seed */
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  background: var(--seed); color: var(--on-seed);
+  padding: 10px 18px; border-radius: var(--r-control);
+  font-weight: 700; text-decoration: none;
+  transition: top 150ms var(--ease);
+}
+.skip:focus { top: 12px; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+.sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ type scale -- */
+/* Zain publishes no 500 and no 600. Only 400 and 700 are loaded, so nothing is
+ * ever synthesised. A monoline face cannot get presence from stroke contrast,
+ * so display type takes weight 700 and tightened tracking. */
+
+h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -.02em; line-height: 1.06; }
+
+h1 { font-size: clamp(3rem, 7.2vw, 5.25rem); }
+h2 { font-size: clamp(2.1rem, 4.4vw, 3.1rem); line-height: 1.1; }
+h3 { font-size: 1.35rem; line-height: 1.25; letter-spacing: -.01em; }
+
+p { margin: 0; }
+
+.eyebrow {
+  font-size: .75rem; font-weight: 700;
+  letter-spacing: .16em;      /* 0.22em overflowed — Zain sets wider than Inter */
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.lede { font-size: clamp(1.1rem, 1.7vw, 1.3rem); color: var(--ink-soft); max-width: 46ch; }
+.note { font-size: .95rem; color: var(--ink2); }
+.tiny { font-size: .85rem; color: var(--ink2); }
+
+/* ---------------------------------------------------------------- shell --- */
+
+.shell {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-line);
+}
+.shell .wrap { display: flex; align-items: center; gap: 12px; height: 66px; }
+
+.mark { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.mark img { width: 30px; height: 30px; border-radius: 7px; }
+.mark span { font-weight: 700; font-size: 1.32rem; letter-spacing: -.02em; }
+
+.shell nav { margin-left: auto; display: flex; gap: 4px; }
+.shell nav a {
+  padding: 8px 14px; border-radius: var(--r-capsule);
+  text-decoration: none; color: var(--ink2); font-size: 1rem;
+  transition: color 150ms var(--ease), background 150ms var(--ease);
+}
+.shell nav a:hover { color: var(--ink); background: rgba(127, 127, 127, .14); }
+
+/* 44x44 minimum touch target, painted box sized independently. */
+.icon-btn {
+  width: 44px; height: 44px; display: grid; place-items: center;
+  background: none; border: 0; border-radius: var(--r-capsule);
+  color: var(--ink2);
+  transition: color 150ms var(--ease), background 150ms var(--ease);
+}
+.icon-btn:hover { color: var(--ink); background: rgba(127, 127, 127, .14); }
+.icon-btn svg { width: 20px; height: 20px; }
+
+/* ------------------------------------------------------------- buttons ---- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 52px; padding: 0 24px;
+  border-radius: var(--r-control); border: 1px solid transparent;
+  font-weight: 700; font-size: 1.05rem; text-decoration: none;
+  transition: transform 150ms var(--ease), background var(--dur-seed) var(--ease),
+              border-color 150ms var(--ease);
+}
+.btn:active { transform: scale(.975); }
+.btn svg { width: 22px; height: 22px; flex: none; }
+
+.btn-seed { background: var(--seed); color: var(--on-seed); }
+.btn-seed:hover { filter: brightness(1.08); }
+
+.btn-ghost { border-color: var(--line-strong); color: var(--ink); background: transparent; }
+.btn-ghost:hover { border-color: var(--ink); }
+
+.btn-sm { min-height: 44px; padding: 0 18px; font-size: .98rem; }
+
+/* ---------------------------------------------------------- store badges --
+ * Apple's and Google's own artwork, unmodified, which is both the convention
+ * and what their brand guidelines require. They are supplied at different
+ * proportions and Google's PNG carries its own clear space baked in, so the
+ * two are sized to match OPTICALLY rather than to the same box height, and the
+ * Play badge's built-in padding is absorbed with a negative margin instead of
+ * cropping the asset. */
+.store-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+
+.badge { display: inline-block; text-decoration: none; transition: opacity 150ms var(--ease), transform 150ms var(--ease); }
+.badge:hover { opacity: .82; }
+.badge:active { transform: scale(.975); }
+.badge img { display: block; width: auto; }
+
+.badge-apple img { height: 54px; }
+/* 646x250 with ~16% padding baked in; the negative margin cancels it so the
+   two badges sit on the same optical baseline and at the same visual height. */
+.badge-google img { height: 78px; margin: -12px -14px; }
+
+@media (max-width: 400px) {
+  .badge-apple img { height: 48px; }
+  .badge-google img { height: 70px; margin: -11px -13px; }
+}
+
+/* ------------------------------------------------------------- document --- */
+/* The privacy policy, and anything else that is mostly prose. */
+
+.doc { padding: clamp(40px, 6vw, 72px) var(--gutter) clamp(64px, 8vw, 104px); max-width: 74ch; }
+.doc h1 { font-size: clamp(2.4rem, 5vw, 3.4rem); margin: 12px 0 0; }
+.doc-updated { margin: 16px 0 0; }
+.doc h2 {
+  font-size: 1.6rem; margin: 52px 0 14px;
+  padding-top: 26px; border-top: 1px solid var(--line);
+}
+.doc h3 { font-size: 1.2rem; margin: 32px 0 10px; }
+.doc h4 { font-size: 1.02rem; margin: 26px 0 8px; color: var(--ink2); }
+.doc p { margin: 14px 0; color: var(--ink-soft); }
+.doc ul { margin: 14px 0; padding-left: 20px; color: var(--ink-soft); }
+.doc li { margin: 8px 0; }
+.doc strong { color: var(--ink); font-weight: 700; }
+.doc a { color: var(--ink); text-underline-offset: 3px; }
+
+/* --------------------------------------------------------------- hero ----- */
+
+.hero { position: relative; padding: clamp(48px, 7vw, 96px) 0 0; }
+
+/* The ambient ground. A seeded gradient rather than a photograph: the only
+ * photographs on this page are ones that genuinely appear in the app, and a
+ * stock image dressed up as catalogue art is the same lie as an invented
+ * statistic. This also costs nothing to load and reseeds with the palette. */
+.ambient {
+  position: absolute; inset: -80px 0 auto; height: 820px; z-index: -1;
+  background:
+    radial-gradient(70% 55% at 18% 8%, var(--seed-glow), transparent 68%),
+    radial-gradient(60% 50% at 88% 0%, var(--seed-faint), transparent 70%);
+  -webkit-mask-image: linear-gradient(#000 0%, #000 38%, transparent 100%);
+  mask-image: linear-gradient(#000 0%, #000 38%, transparent 100%);
+  transition: background var(--dur-seed) var(--ease);
+}
+
+.hero-grid {
+  display: grid; gap: clamp(32px, 5vw, 64px);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero-grid { grid-template-columns: 1.05fr .95fr; }
+}
+
+.hero h1 { margin: 18px 0 20px; }
+.hero h1 em { font-style: normal; color: var(--ink2); }
+.hero .store-row { margin-top: 30px; }
+.hero .note { margin-top: 18px; }
+
+/* the App Store rating line — real numbers, count included */
+.rating { display: flex; align-items: center; gap: 9px; margin-top: 22px; }
+.rating .stars { display: flex; gap: 2px; color: var(--seed); }
+.rating .stars svg { width: 16px; height: 16px; }
+.rating span { font-size: .92rem; color: var(--ink2); }
+
+/* -------------------------------------------------------------- section --- */
+
+section { padding: clamp(64px, 7vw, 100px) 0; }
+.section-head { max-width: 62ch; margin-bottom: clamp(36px, 5vw, 56px); }
+.section-head h2 { margin: 14px 0 18px; }
+
+/* ------------------------------------------------------------ platforms --- */
+
+.seg {
+  display: inline-flex; gap: 4px; padding: 4px;
+  background: rgba(127, 127, 127, .12);
+  border: 1px solid var(--line);
+  border-radius: var(--r-capsule);
+}
+.seg button {
+  min-height: 44px; padding: 0 22px;
+  background: none; border: 0; border-radius: var(--r-capsule);
+  color: var(--ink2); font-weight: 700; font-size: 1rem;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.seg button[aria-selected="true"] { background: var(--seed); color: var(--on-seed); }
+
+.stage {
+  display: grid; gap: clamp(32px, 5vw, 72px);
+  grid-template-columns: 1fr; align-items: start;
+  margin-top: 36px;
+}
+@media (min-width: 900px) { .stage { grid-template-columns: .9fr 1.1fr; } }
+
+.fork { display: grid; gap: 0; }
+.fork-row { padding: 26px 0; border-top: 1px solid var(--line); }
+.fork-row:last-child { border-bottom: 1px solid var(--line); }
+.fork-row h3 { margin-bottom: 12px; }
+.fork-row p { color: var(--ink-soft); max-width: 54ch; }
+.fork-row p + p { margin-top: 10px; }
+
+.tag {
+  display: inline-block; margin-right: 8px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink3);
+  border: 1px solid var(--line); border-radius: var(--r-capsule);
+  padding: 3px 9px; vertical-align: 2px;
+}
+
+/* ================================================================ devices ==
+ * A bezel wrapped around a real screenshot. The frame takes its height from the
+ * image rather than a declared aspect-ratio, so no capture is ever cropped and
+ * the two platforms keep their genuinely different proportions.
+ *
+ * Only the bezel is drawn here. Status bars, notches, tab bars and the punch
+ * hole are all IN the screenshots — drawing our own on top would double them.
+ */
+
+.device { position: relative; width: min(300px, 78vw); margin: 0 auto; }
+.device::after {
+  content: ""; position: absolute; inset: 14% 4% 2%;
+  background: var(--seed-glow); filter: blur(48px); z-index: -1;
+  transition: background var(--dur-seed) var(--ease);
+}
+
+.frame {
+  position: relative; padding: 5px;
+  background: #17171B;
+  border: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 30px 70px -22px rgba(0, 0, 0, .85);
+}
+.frame.ios { border-radius: 44px; }
+.frame.android { border-radius: 30px; }   /* squarer — a real platform tell */
+
+.frame img {
+  width: 100%; height: auto;
+  border-radius: 39px;
+  background: #0A0A0C;
+}
+.frame.android img { border-radius: 25px; }
+
+/* The Android detail capture ends in a live banner ad — the app serves ads on
+ * Android, and a test-ad placeholder on a landing page just reads as broken.
+ * Trimmed here rather than in the file: an aspect box cannot pad, whereas the
+ * sips centre-crop that did this before left a white band along the top.
+ * 2585/2856 is the ad block's first row, measured off the raw capture. */
+.frame img.shot-crop-ad {
+  aspect-ratio: 1280 / 2585;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+}
+
+.dev-cap { text-align: center; margin-top: 20px; }
+.dev-cap b { display: block; font-size: 1.05rem; }
+.dev-cap span { font-size: .9rem; color: var(--ink2); }
+
+/* a second, smaller frame shown beside the main one on wide screens */
+.dev-pair { display: grid; gap: 20px; grid-template-columns: 1fr; justify-items: center; }
+/* An author `display` beats the UA rule behind the `hidden` attribute, so the
+ * inactive platform stayed on screen. Every element given `display` here needs
+ * this or `hidden` silently does nothing. */
+.dev-pair[hidden] { display: none; }
+@media (min-width: 620px) {
+  .dev-pair { grid-template-columns: 1fr 1fr; align-items: start; }
+  .dev-pair .device { width: min(250px, 100%); }
+}
+
+/* --------------------------------------------------------------- inside --- */
+
+.feature-grid {
+  display: grid; gap: 1px;
+  background: var(--line);
+  border-block: 1px solid var(--line);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .feature-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.feature { background: var(--bg); padding: 32px clamp(20px, 3vw, 34px) 36px; }
+.feature h3 { margin-bottom: 10px; }
+.feature p { color: var(--ink-soft); font-size: 1rem; }
+.feature .glyph { width: 34px; height: 34px; margin-bottom: 18px; color: var(--ink3); }
+.feature .glyph svg { width: 100%; height: 100%; }
+
+/* --------------------------------------------------------------- free ----- */
+
+.free-card {
+  border: 1px solid var(--line); border-radius: var(--r-sheet);
+  background:
+    radial-gradient(120% 140% at 88% -10%, var(--seed-faint), transparent 62%),
+    var(--bg-raise);
+  padding: clamp(32px, 4.5vw, 56px);
+  transition: background var(--dur-seed) var(--ease);
+}
+.free-grid { display: grid; gap: 28px; grid-template-columns: 1fr; margin-top: 30px; }
+@media (min-width: 760px) { .free-grid { grid-template-columns: 1fr 1fr; gap: 0; } }
+
+.col { padding: 4px 0; }
+@media (min-width: 760px) {
+  .col + .col { border-left: 1px solid var(--line); padding-left: clamp(28px, 4vw, 52px); }
+  .col:first-child { padding-right: clamp(28px, 4vw, 52px); }
+}
+.col h3 { margin-bottom: 18px; }
+
+.col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.col li { display: flex; gap: 12px; align-items: flex-start; font-size: 1rem; color: var(--ink-soft); }
+.col li svg { width: 19px; height: 19px; flex: none; margin-top: 4px; color: var(--ink3); }
+.col li b { color: var(--ink); font-weight: 700; }
+
+/* --------------------------------------------------------------- footer --- */
+
+footer { border-top: 1px solid var(--line); padding: 56px 0 44px; }
+.foot-grid { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 760px) { .foot-grid { grid-template-columns: 1.4fr 1fr 1fr; } }
+footer h4 {
+  margin: 0 0 14px; font-size: .75rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--ink3);
+}
+footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+footer a { color: var(--ink2); text-decoration: none; font-size: 1rem; }
+footer a:hover { color: var(--ink); text-decoration: underline; }
+.colophon {
+  margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between;
+  font-size: .9rem; color: var(--ink3);
+}
+
+/* ---------------------------------------------------------------- motion -- */
+
+/* Gated on .js, set by the script before anything else runs. Without it, a
+ * failed script would leave half the page permanently invisible — copy must
+ * never depend on JavaScript to be readable. */
+.js .reveal { opacity: 0; transform: translateY(14px); transition: opacity 560ms var(--ease), transform 560ms var(--ease); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------ responsive -- */
+
+@media (max-width: 560px) {
+  :root { --gutter: 16px; }
+  body { font-size: 18px; }
+  .shell nav { display: none; }       /* the anchors all repeat further down */
+  .store-row .btn { flex: 1 1 100%; }
+}
