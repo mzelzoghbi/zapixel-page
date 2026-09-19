@@ -359,6 +359,17 @@ section { padding: clamp(64px, 7vw, 100px) 0; }
 }
 .frame.android img { border-radius: 25px; }
 
+/* A phone showing a light UI inside a dark page (or the reverse) reads as a
+ * stale screenshot, so the captures follow the page. Each frame holds a matched
+ * pair — the SAME screen shot twice, once per theme — and only one is ever
+ * displayed. Both are real captures of the shipped apps.
+ *
+ * Some screens are a photograph behind a dark scrim and look right either way;
+ * those are marked .shot-any and carry no twin. */
+.frame img.shot-light, .frame img.shot-dark { display: none; }
+:root[data-theme="light"] .frame img.shot-light { display: block; }
+:root[data-theme="dark"]  .frame img.shot-dark  { display: block; }
+
 /* The Android detail capture ends in a live banner ad — the app serves ads on
  * Android, and a test-ad placeholder on a landing page just reads as broken.
  * Trimmed here rather than in the file: an aspect box cannot pad, whereas the
