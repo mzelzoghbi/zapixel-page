@@ -1,0 +1,31 @@
+# ZaPixel
+
+> ZaPixel is a free wallpaper app for iPhone and Android, made by ZaPlatform. It offers a curated catalogue of 4K wallpapers sorted into categories, a new wallpaper hand-picked every day, and a preview that shows a wallpaper behind a lock screen, home screen or watch face before you save it. No account is needed.
+
+Key facts:
+
+- Free to download on both platforms. Every wallpaper is free at full 4K resolution. There is no subscription, no Pro tier and no in-app purchase. The apps are supported by ads.
+- No sign-up. Saved wallpapers are stored on the device.
+- iPhone: requires iOS 17 or later. iOS does not let third-party apps set the wallpaper, so ZaPixel saves the full-resolution image to Photos. Includes home screen widgets (Today's Pick, Shuffle) and Shortcuts support for changing the wallpaper automatically.
+- Android: a separate native app. One tap on Set applies the wallpaper, and the app takes its colours from the phone's wallpaper (Material You).
+- Languages: English and Arabic (the iPhone app is fully translated and laid out right to left).
+- Categories include nature, abstract, dark, space, minimal, city, architecture and cyberpunk.
+- Downloads can be full resolution (4K) or a lighter file for slow connections.
+- Light, dark or system theme.
+- ZaPixel does not generate wallpapers with AI. An earlier AI generator was removed in September 2026.
+
+## Download
+
+- [ZaPixel on the App Store (iPhone)](https://apps.apple.com/app/id6742073049)
+- [ZaPixel on Google Play (Android)](https://play.google.com/store/apps/details?id=com.zaplatform.zapixel)
+
+## Pages
+
+- [ZaPixel home page](https://zapixel.zaplatform.com/): features, the iPhone and Android differences, and an FAQ
+- [FAQ](https://zapixel.zaplatform.com/#faq): what it is, cost, devices, how to set a wallpaper, widgets, Arabic, data
+- [Privacy policy](https://zapixel.zaplatform.com/privacy/)
+
+## Developer
+
+- [ZaPlatform](https://zaplatform.com): the developer, Mohamed El-Zoghbi (Zak), Egypt
+- Support: zaplatform@gmail.com

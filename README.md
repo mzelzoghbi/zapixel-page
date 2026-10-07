@@ -21,6 +21,7 @@ Edit the design, re-run that script, and copy the result here.
 |---|---|
 | `site/CNAME` | Holds the custom domain. Deleting it drops `zapixel.zaplatform.com`. |
 | `site/app-ads.txt` | Google ad publisher ID. Removing it breaks ad monetisation. |
+| `site/robots.txt`, `site/sitemap.xml`, `site/llms.txt` | Crawling and answer-engine files. Generated or copied by the design's build, like everything else here. |
 | `site/privacy/index.html` | **App Store Connect and Play Console hold this URL.** The policy has always lived at `/privacy`, and that path is preserved deliberately — moving it silently breaks the store listings' privacy link. |
 
 ## History
