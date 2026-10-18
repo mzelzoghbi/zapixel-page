@@ -22,6 +22,7 @@ Key facts:
 ## Pages
 
 - [ZaPixel home page](https://zapixel.zaplatform.com/): features, the iPhone and Android differences, and an FAQ
+- [All wallpapers](https://zapixel.zaplatform.com/wallpapers/): the full catalogue by category, with a page for every wallpaper
 - [FAQ](https://zapixel.zaplatform.com/#faq): what it is, cost, devices, how to set a wallpaper, widgets, Arabic, data
 - [Privacy policy](https://zapixel.zaplatform.com/privacy/)
 

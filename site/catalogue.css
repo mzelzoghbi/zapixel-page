@@ -1,0 +1,57 @@
+/* ZaPixel catalogue pages — /wallpapers/, a category, one wallpaper.
+ *
+ * Loaded after landing.css and built only from its tokens, so the two-layer
+ * rule holds here too: the CONTENT layer (tiles, crumbs, prose) is monochrome
+ * with 1px hairlines and radius 10; the only accent is the shell's Get button.
+ * Markup lives in templates/; tools/catalogue_pages.py fills it.
+ */
+
+.cat-main { padding: 112px 0 72px; }
+
+.crumbs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px; padding: 0;
+          list-style: none; font-size: .95rem; color: var(--ink2); }
+.crumbs li + li::before { content: "›"; margin-right: 6px; color: var(--ink3); }
+.crumbs a { color: var(--ink2); text-decoration: none; }
+.crumbs a:hover { color: var(--ink); }
+
+.page-head { max-width: 62ch; margin-bottom: 28px; }
+.page-head h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.05;
+                letter-spacing: -.02em; margin: 0 0 14px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; padding: 0; list-style: none; }
+.chips a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px;
+           border: 1px solid var(--line); border-radius: var(--r-tile);
+           color: var(--ink-soft); text-decoration: none; font-size: .95rem; }
+.chips a:hover { border-color: var(--line-strong); color: var(--ink); }
+.chips a[aria-current="page"] { border-color: var(--ink); color: var(--ink); }
+
+.grid { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+@media (min-width: 720px) { .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; } }
+.tile a { display: block; text-decoration: none; color: var(--ink-soft); }
+.tile img { display: block; width: 100%; aspect-ratio: 9 / 19.5; object-fit: cover;
+            border-radius: var(--r-tile); border: 1px solid var(--line); background: var(--bg-raise); }
+.tile span { display: block; margin-top: 8px; font-size: .92rem; line-height: 1.25;
+             overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile a:hover span { color: var(--ink); }
+.tile span.tile-count { display: inline; color: var(--ink3); }
+
+.section-title { font-size: 1.5rem; margin: 48px 0 18px; }
+
+/* ---- one wallpaper ------------------------------------------------------ */
+.wp { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 860px) { .wp { grid-template-columns: minmax(260px, 380px) 1fr; gap: 56px; } }
+.wp-image img { display: block; width: 100%; aspect-ratio: 9 / 19.5; object-fit: cover;
+                border-radius: var(--r-tile); border: 1px solid var(--line); background: var(--bg-raise); }
+.wp-info h1 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05; letter-spacing: -.02em; margin: 0 0 14px; }
+.wp-info .store-row { margin: 24px 0 8px; }
+.wp-info h2 { font-size: 1.2rem; margin: 32px 0 10px; }
+.steps { margin: 0; padding-left: 1.2em; color: var(--ink-soft); }
+.steps li { margin: 4px 0; }
+.tags { color: var(--ink2); font-size: .95rem; }
+
+.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px;
+         padding-top: 20px; border-top: 1px solid var(--line); }
+.pager a { color: var(--ink-soft); text-decoration: none; max-width: 48%; }
+.pager a:hover { color: var(--ink); }
+.pager .older { margin-left: auto; text-align: right; }
