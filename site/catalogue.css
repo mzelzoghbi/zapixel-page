@@ -29,7 +29,7 @@
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 @media (min-width: 720px) { .grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 16px; } }
 .tile a { display: block; text-decoration: none; color: var(--ink-soft); }
-.tile img { display: block; width: 100%; aspect-ratio: 9 / 19.5; object-fit: cover;
+.tile img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 19.5; object-fit: cover;
             border-radius: var(--r-tile); border: 1px solid var(--line); background: var(--bg-raise); }
 .tile span { display: block; margin-top: 8px; font-size: .92rem; line-height: 1.25;
              overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -41,7 +41,11 @@
 /* ---- one wallpaper ------------------------------------------------------ */
 .wp { display: grid; gap: 32px; grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 860px) { .wp { grid-template-columns: minmax(260px, 380px) 1fr; gap: 56px; } }
-.wp-image img { display: block; width: 100%; aspect-ratio: 9 / 19.5; object-fit: cover;
+/* height:auto lets aspect-ratio win over the img's height attribute, which is
+ * only there to reserve space; without it the image renders 1950px tall and
+ * object-fit crops it to a strip. The cap keeps the whole wallpaper on screen. */
+.wp-image { max-width: min(100%, calc((100svh - 240px) * 9 / 19.5)); margin: 0 auto; }
+.wp-image img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 19.5; object-fit: cover;
                 border-radius: var(--r-tile); border: 1px solid var(--line); background: var(--bg-raise); }
 .wp-info h1 { font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05; letter-spacing: -.02em; margin: 0 0 14px; }
 .wp-info .store-row { margin: 24px 0 8px; }
